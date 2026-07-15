@@ -1,1 +1,635 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eternos City — Loja da Cidade Eterna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0b12;
+    --bg-panel:#161220;
+    --bg-panel-2:#1c1728;
+    --gold:#d4af37;
+    --gold-soft:#f0d78c;
+    --emerald:#2f9e6e;
+    --violet:#8b5cf6;
+    --text:#efe9df;
+    --text-dim:#a89f92;
+    --border:rgba(212,175,55,.22);
+    --danger:#c0503f;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(139,92,246,.12), transparent 45%),
+      radial-gradient(ellipse at 90% 0%, rgba(212,175,55,.10), transparent 40%),
+      var(--bg);
+    color:var(--text);
+    font-family:'Inter',sans-serif;
+    min-height:100vh;
+  }
+  ::selection{background:var(--gold); color:#0d0b12;}
+  a{color:inherit;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  .display{font-family:'Cinzel',serif;}
 
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:40;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 32px;
+    background:rgba(13,11,18,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .seal{
+    width:34px;height:34px;border-radius:50%;
+    background:conic-gradient(from 180deg, var(--gold), var(--violet), var(--emerald), var(--gold));
+    display:flex; align-items:center; justify-content:center;
+    box-shadow:0 0 14px rgba(212,175,55,.4);
+  }
+  .brand .seal span{
+    width:26px;height:26px;border-radius:50%;background:var(--bg);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;
+  }
+  .brand-name{
+    font-family:'Cinzel',serif; font-weight:700; letter-spacing:.08em;
+    font-size:19px; color:var(--gold-soft);
+  }
+  .brand-name small{display:block; font-family:'Inter',sans-serif; font-size:10px; letter-spacing:.25em; color:var(--text-dim); font-weight:500;}
+  nav.tabs{display:flex; gap:6px;}
+  nav.tabs button{
+    background:none;border:1px solid transparent;color:var(--text-dim);
+    padding:8px 16px;border-radius:999px;font-size:13.5px;font-weight:600;
+    cursor:pointer; transition:.2s;
+  }
+  nav.tabs button.active, nav.tabs button:hover{background:var(--bg-panel-2); color:var(--gold-soft); border-color:var(--border);}
+  .nav-right{display:flex; align-items:center; gap:12px;}
+  .icon-btn{
+    position:relative; width:42px;height:42px;border-radius:12px;
+    border:1px solid var(--border); background:var(--bg-panel);
+    display:flex;align-items:center;justify-content:center; cursor:pointer;
+    font-size:17px; transition:.2s;
+  }
+  .icon-btn:hover{border-color:var(--gold); background:var(--bg-panel-2);}
+  .badge{
+    position:absolute; top:-6px; right:-6px; background:var(--emerald); color:#08150f;
+    font-size:10.5px; font-weight:700; min-width:18px;height:18px;border-radius:999px;
+    display:flex;align-items:center;justify-content:center; padding:0 4px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .user-chip{display:flex;align-items:center;gap:8px; background:var(--bg-panel); border:1px solid var(--border); padding:5px 12px 5px 5px; border-radius:999px; cursor:pointer;}
+  .user-chip img{width:28px;height:28px;border-radius:50%;}
+  .user-chip span{font-size:13px;font-weight:600; max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .btn{
+    font-family:'Inter',sans-serif; font-weight:700; font-size:13.5px;
+    border:none; border-radius:10px; padding:10px 18px; cursor:pointer;
+    transition:.2s; letter-spacing:.01em;
+  }
+  .btn-gold{background:linear-gradient(180deg, var(--gold-soft), var(--gold)); color:#241b06;}
+  .btn-gold:hover{filter:brightness(1.08); transform:translateY(-1px);}
+  .btn-ghost{background:transparent;border:1px solid var(--border); color:var(--text);}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .btn-danger{background:transparent;color:var(--danger); border:1px solid rgba(192,80,63,.4);}
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:70px 32px 40px; max-width:1180px; margin:0 auto;
+    display:grid; grid-template-columns:1.2fr .8fr; gap:40px; align-items:center;
+  }
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.3em;
+    color:var(--emerald); text-transform:uppercase; margin-bottom:14px;
+  }
+  .hero h1{
+    font-family:'Cinzel',serif; font-size:44px; line-height:1.15; margin:0 0 18px;
+    color:var(--gold-soft);
+    text-shadow:0 0 30px rgba(212,175,55,.18);
+  }
+  .hero p{color:var(--text-dim); font-size:15.5px; line-height:1.7; max-width:480px;}
+  .hero-stats{display:flex; gap:28px; margin-top:26px;}
+  .hero-stats div{border-left:2px solid var(--gold); padding-left:12px;}
+  .hero-stats .n{font-family:'IBM Plex Mono',monospace; font-size:20px; color:var(--gold-soft); font-weight:600;}
+  .hero-stats .l{font-size:11.5px; color:var(--text-dim); letter-spacing:.05em;}
+  .hero-art{
+    position:relative; height:230px; border-radius:var(--radius);
+    background:linear-gradient(160deg, var(--bg-panel-2), var(--bg-panel));
+    border:1px solid var(--border); overflow:hidden;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero-art .glint{
+    position:absolute; inset:-50%; width:200%; height:200%;
+    background:linear-gradient(75deg, transparent 40%, rgba(255,255,255,.10) 48%, rgba(255,255,255,.28) 50%, rgba(255,255,255,.10) 52%, transparent 60%);
+    animation:sweep 3.2s linear infinite;
+  }
+  @keyframes sweep{0%{transform:translate(-30%,-10%);}100%{transform:translate(30%,10%);}}
+  .hero-art .emblem{font-size:78px; filter:drop-shadow(0 0 24px rgba(212,175,55,.5));}
+
+  /* ---------- SECTION ---------- */
+  .section{max-width:1180px; margin:0 auto; padding:30px 32px 80px;}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:22px; border-bottom:1px solid var(--border); padding-bottom:14px;}
+  .section-head h2{font-family:'Cinzel',serif; font-size:24px; color:var(--gold-soft); margin:0;}
+  .section-head p{color:var(--text-dim); font-size:13px; margin:4px 0 0;}
+
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(255px,1fr)); gap:18px;}
+
+  .card{
+    position:relative; background:var(--bg-panel); border:1px solid var(--border); border-radius:var(--radius);
+    padding:20px; overflow:hidden; transition:.25s; display:flex; flex-direction:column; gap:10px;
+  }
+  .card:hover{transform:translateY(-3px); border-color:var(--gold); box-shadow:0 12px 30px rgba(0,0,0,.35);}
+  .card .glint-sweep{
+    position:absolute; inset:0; pointer-events:none; opacity:0;
+    background:linear-gradient(100deg, transparent 30%, rgba(240,215,140,.22) 46%, rgba(240,215,140,.4) 50%, rgba(240,215,140,.22) 54%, transparent 70%);
+    transform:translateX(-120%); transition:opacity .2s;
+  }
+  .card:hover .glint-sweep{opacity:1; animation:cardsweep 1.1s ease forwards;}
+  @keyframes cardsweep{to{transform:translateX(120%);}}
+  .card-top{display:flex; align-items:flex-start; justify-content:space-between;}
+  .card-icon{font-size:30px;}
+  .tier{
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.06em;
+    padding:3px 9px; border-radius:999px; text-transform:uppercase;
+  }
+  .tier-comum{background:rgba(168,159,146,.15); color:var(--text-dim);}
+  .tier-raro{background:rgba(58,141,222,.15); color:#7cb3f0;}
+  .tier-epico{background:rgba(139,92,246,.18); color:#b9a1fb;}
+  .tier-lendario{background:rgba(212,175,55,.18); color:var(--gold-soft);}
+  .card h3{font-size:15.5px; margin:2px 0 0; font-weight:700;}
+  .card .desc{font-size:12.5px; color:var(--text-dim); line-height:1.55; min-height:34px;}
+  .card-bottom{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:8px;}
+  .price{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:16.5px; color:var(--emerald);}
+  .add-btn{
+    width:36px;height:36px;border-radius:10px; border:1px solid var(--border); background:var(--bg-panel-2);
+    color:var(--gold-soft); font-size:18px; cursor:pointer; transition:.2s; display:flex; align-items:center; justify-content:center;
+  }
+  .add-btn:hover{background:var(--gold); color:#241b06; border-color:var(--gold);}
+
+  /* ---------- CART DRAWER ---------- */
+  .overlay{position:fixed; inset:0; background:rgba(6,5,9,.6); backdrop-filter:blur(2px); z-index:60; display:none;}
+  .overlay.show{display:block;}
+  .drawer{
+    position:fixed; top:0; right:-420px; width:400px; max-width:92vw; height:100vh; z-index:70;
+    background:var(--bg-panel); border-left:1px solid var(--border); transition:right .3s ease;
+    display:flex; flex-direction:column;
+  }
+  .drawer.open{right:0;}
+  .drawer-head{padding:20px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between;}
+  .drawer-head h3{font-family:'Cinzel',serif; color:var(--gold-soft); margin:0; font-size:18px;}
+  .close-x{background:none;border:none; color:var(--text-dim); font-size:20px; cursor:pointer;}
+  .drawer-body{flex:1; overflow-y:auto; padding:16px 22px; display:flex; flex-direction:column; gap:12px;}
+  .empty-msg{color:var(--text-dim); font-size:13.5px; text-align:center; margin-top:40px; line-height:1.6;}
+  .cart-item{display:flex; gap:12px; align-items:center; border:1px solid var(--border); border-radius:10px; padding:10px;}
+  .cart-item .ci-icon{font-size:22px; width:34px; text-align:center;}
+  .cart-item .ci-info{flex:1;}
+  .cart-item .ci-info h4{margin:0 0 2px; font-size:13.5px;}
+  .cart-item .ci-info .mono{font-size:12px; color:var(--emerald);}
+  .qty-ctl{display:flex; align-items:center; gap:6px;}
+  .qty-ctl button{width:22px;height:22px;border-radius:6px; border:1px solid var(--border); background:var(--bg-panel-2); color:var(--text); cursor:pointer; font-size:13px;}
+  .qty-ctl span{font-family:'IBM Plex Mono',monospace; font-size:12.5px; min-width:16px; text-align:center;}
+  .rm-btn{background:none;border:none;color:var(--danger); font-size:16px; cursor:pointer;}
+  .drawer-foot{padding:18px 22px; border-top:1px solid var(--border);}
+  .total-row{display:flex; justify-content:space-between; font-size:14px; margin-bottom:14px;}
+  .total-row .v{font-family:'IBM Plex Mono',monospace; font-size:19px; color:var(--gold-soft); font-weight:700;}
+
+  /* ---------- MODALS ---------- */
+  .modal{
+    position:fixed; inset:0; z-index:90; display:none; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal.show{display:flex;}
+  .modal-box{
+    background:var(--bg-panel); border:1px solid var(--border); border-radius:var(--radius);
+    max-width:420px; width:100%; padding:28px; position:relative;
+  }
+  .modal-box .close-x{position:absolute; top:16px; right:16px;}
+  .modal-box h3{font-family:'Cinzel',serif; color:var(--gold-soft); margin:0 0 6px; font-size:20px;}
+  .modal-box p{color:var(--text-dim); font-size:13.5px; line-height:1.6;}
+  .google-btn{
+    width:100%; display:flex; align-items:center; justify-content:center; gap:10px;
+    background:#fff; color:#1f1f1f; font-weight:700; font-size:14px;
+    border:none; border-radius:10px; padding:12px; cursor:pointer; margin-top:18px;
+  }
+  .google-btn svg{width:18px;height:18px;}
+
+  .pix-box{background:var(--bg-panel-2); border:1px dashed var(--gold); border-radius:10px; padding:14px; margin:16px 0;}
+  .pix-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px;}
+  .pix-row:last-child{margin-bottom:0;}
+  .pix-label{font-size:11px; color:var(--text-dim); letter-spacing:.05em; text-transform:uppercase; display:block; margin-bottom:3px;}
+  .pix-value{font-family:'IBM Plex Mono',monospace; font-size:14.5px; word-break:break-all;}
+  .copy-btn{
+    flex-shrink:0; background:var(--bg-panel); border:1px solid var(--border); color:var(--gold-soft);
+    padding:7px 10px; border-radius:8px; font-size:11.5px; cursor:pointer; font-weight:600;
+  }
+  .copy-btn:hover{border-color:var(--gold);}
+  .warn-note{font-size:11.5px; color:var(--text-dim); background:rgba(212,175,55,.08); border-left:2px solid var(--gold); padding:8px 10px; border-radius:6px; margin-top:14px;}
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--bg-panel-2); border:1px solid var(--gold); color:var(--gold-soft);
+    padding:12px 20px; border-radius:10px; font-size:13.5px; z-index:100; opacity:0; transition:.3s; pointer-events:none;
+  }
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+  footer{text-align:center; padding:30px; color:var(--text-dim); font-size:12px; border-top:1px solid var(--border);}
+
+  @media(max-width:860px){
+    .hero{grid-template-columns:1fr;}
+    header{flex-wrap:wrap; gap:12px; padding:14px 16px;}
+    nav.tabs{order:3; width:100%; overflow-x:auto;}
+    .section{padding:20px 16px 60px;}
+    .hero{padding:40px 16px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="seal"><span>🏛️</span></div>
+    <div class="brand-name">ETERNOS CITY<small>MERCADO DA CIDADE</small></div>
+  </div>
+  <nav class="tabs">
+    <button class="active" data-cat="itens">Itens OP</button>
+    <button data-cat="encantamentos">Encantamentos</button>
+  </nav>
+  <div class="nav-right">
+    <button class="icon-btn" id="cartBtn">🛒<span class="badge" id="cartCount" style="display:none">0</span></button>
+    <div id="authArea"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">Loja Oficial · Servidor Eternos City</div>
+    <h1>Equipe-se para durar<br>a eternidade.</h1>
+    <p>Itens encantados e equipamentos de ponta direto para o seu inventário. Escolha, adicione ao carrinho e finalize o pagamento via Pix — simples assim.</p>
+    <div class="hero-stats">
+      <div><div class="n">30+</div><div class="l">ITENS À VENDA</div></div>
+      <div><div class="n">100%</div><div class="l">ENTREGA IN-GAME</div></div>
+      <div><div class="n">24/7</div><div class="l">SUPORTE</div></div>
+    </div>
+  </div>
+  <div class="hero-art"><div class="glint"></div><div class="emblem">⚔️</div></div>
+</section>
+
+<div class="section" id="itens">
+  <div class="section-head">
+    <div><h2>Itens OP</h2><p>Equipamentos raros, prontos para uso imediato.</p></div>
+  </div>
+  <div class="grid" id="gridItens"></div>
+</div>
+
+<div class="section" id="encantamentos" style="display:none">
+  <div class="section-head">
+    <div><h2>Encantamentos</h2><p>Aplicados diretamente no item de sua escolha.</p></div>
+  </div>
+  <div class="grid" id="gridEncantamentos"></div>
+</div>
+
+<footer>Eternos City © 2026 — Loja não oficial de itens virtuais. Compras processadas manualmente via Pix.</footer>
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-head">
+    <h3>Seu carrinho</h3>
+    <button class="close-x" id="closeDrawer">✕</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot">
+    <div class="total-row"><span>Total</span><span class="v mono" id="cartTotal">R$ 0,00</span></div>
+    <button class="btn btn-gold" id="checkoutBtn" style="width:100%">Finalizar compra</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+  <div class="modal-box">
+    <button class="close-x" data-close="loginModal">✕</button>
+    <h3>Entrar na cidade</h3>
+    <p>Faça login para guardar seus itens no carrinho e finalizar sua compra.</p>
+    <button class="google-btn" id="googleLoginBtn">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.9 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.8 1.1 8 3l5.7-5.7C34.6 6.1 29.6 4 24 4c-7.4 0-13.7 4.2-16.9 10.3z"/><path fill="#4CAF50" d="M24 44c5.5 0 10.4-1.9 14.3-5.1l-6.6-5.5C29.6 35.3 27 36 24 36c-5.3 0-9.7-3.4-11.3-8.1l-6.6 5.1C9.4 39.8 16.1 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.6 5.5C41.5 36.4 44 30.7 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+      Entrar com Google
+    </button>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-box">
+    <button class="close-x" data-close="checkoutModal">✕</button>
+    <h3>Pagamento via Pix</h3>
+    <p>Envie o valor exato usando a chave abaixo e depois clique em "Já paguei" para registrar seu pedido.</p>
+    <div class="pix-box">
+      <div class="pix-row">
+        <div><span class="pix-label">Chave Pix</span><span class="pix-value" id="pixKeyDisplay">SUA-CHAVE-PIX-AQUI</span></div>
+        <button class="copy-btn" data-copy="pixKeyDisplay">Copiar</button>
+      </div>
+      <div class="pix-row">
+        <div><span class="pix-label">Valor</span><span class="pix-value" id="pixValueDisplay">R$ 0,00</span></div>
+        <button class="copy-btn" data-copy="pixValueDisplay">Copiar</button>
+      </div>
+    </div>
+    <div class="warn-note">⚠️ Confira o valor antes de enviar. Após o pagamento, guarde o comprovante — ele pode ser solicitado pela equipe para liberar a entrega.</div>
+    <button class="btn btn-gold" id="confirmPaidBtn" style="width:100%; margin-top:16px;">Já paguei — registrar pedido</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+<script>
+/* ================= CONFIG ================= */
+const firebaseConfig = {
+  apiKey: "AIzaSyCrNLLlBps9ODpazdrRmAQw3yXMLlXsh7o",
+  authDomain: "bankdata-2591d.firebaseapp.com",
+  projectId: "bankdata-2591d",
+  storageBucket: "bankdata-2591d.firebasestorage.app",
+  messagingSenderId: "481988490566",
+  appId: "1:481988490566:web:27e2d3e2f8b91d09df2147"
+};
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+// Client ID do Google OAuth já vinculado a este projeto Firebase:
+// 481988490566-ohdcuisc0u36ai68k773kbb39crk4t0s.apps.googleusercontent.com
+
+// >>> TROQUE PELA SUA CHAVE PIX REAL <<<
+const PIX_KEY = "SUA-CHAVE-PIX-AQUI";
+
+/* ================= CATALOGO ================= */
+const ITENS_OP = [
+  {id:"i1", icon:"🗡️", name:"Espada Netherite Encantada", desc:"Afiação V, Vínculo, Reparação.", price:120, tier:"lendario"},
+  {id:"i2", icon:"🛡️", name:"Armadura Netherite Full Set", desc:"Proteção IV completa + Reparação.", price:350, tier:"lendario"},
+  {id:"i3", icon:"🪽", name:"Elytra Reforçada", desc:"Reparação + Impulso de Foguete III.", price:200, tier:"epico"},
+  {id:"i4", icon:"✨", name:"Totem da Imortalidade", desc:"Unidade avulsa, entrega imediata.", price:25, tier:"raro"},
+  {id:"i5", icon:"🍎", name:"Maçã Dourada Encantada", desc:"God Apple — cura e absorção total.", price:40, tier:"epico"},
+  {id:"i6", icon:"🔆", name:"Beacon Completo", desc:"Com pirâmide de blocos inclusa.", price:300, tier:"lendario"},
+  {id:"i7", icon:"📦", name:"Shulker Box Colorida", desc:"27 slots, cor à sua escolha.", price:30, tier:"comum"},
+  {id:"i8", icon:"🔩", name:"Barra de Netherite", desc:"Unidade para forja e upgrades.", price:50, tier:"raro"},
+  {id:"i9", icon:"🔮", name:"Cristal do Fim (pack 8x)", desc:"Ideal para lutas no End.", price:40, tier:"raro"},
+  {id:"i10", icon:"🎒", name:"Kit Cidadão Eterno", desc:"Kit inicial completo para novos jogadores.", price:60, tier:"comum"},
+  {id:"i11", icon:"👑", name:"Rank VIP Eterno (mensal)", desc:"Benefícios exclusivos por 30 dias.", price:25, tier:"epico"},
+  {id:"i12", icon:"🗝️", name:"Chave de Caixa Lendária", desc:"Abre uma caixa com prêmios aleatórios raros.", price:15, tier:"raro"},
+];
+
+const ENCANTAMENTOS = [
+  {id:"e1", icon:"⚔️", name:"Afiação V", desc:"Dano extra em corpo a corpo.", price:15, tier:"epico"},
+  {id:"e2", icon:"⛏️", name:"Eficiência V", desc:"Mineração muito mais rápida.", price:12, tier:"raro"},
+  {id:"e3", icon:"🏹", name:"Poder V", desc:"Flechas com dano máximo.", price:15, tier:"epico"},
+  {id:"e4", icon:"🛡️", name:"Proteção IV", desc:"Redução geral de dano.", price:18, tier:"epico"},
+  {id:"e5", icon:"🔥", name:"Fogo Infernal II", desc:"Deixa o alvo em chamas por mais tempo.", price:10, tier:"raro"},
+  {id:"e6", icon:"🧵", name:"Toque de Seda", desc:"Minera blocos em seu estado original.", price:20, tier:"epico"},
+  {id:"e7", icon:"🎣", name:"Sorte do Mar III", desc:"Melhora os itens obtidos na pesca.", price:15, tier:"raro"},
+  {id:"e8", icon:"🍀", name:"Fortuna III", desc:"Triplica drops de minérios.", price:25, tier:"lendario"},
+  {id:"e9", icon:"🧵", name:"Reparação (Mending)", desc:"Repara o item usando experiência.", price:30, tier:"lendario"},
+  {id:"e10", icon:"🌩️", name:"Espinhos III", desc:"Reflete dano para o atacante.", price:14, tier:"raro"},
+  {id:"e11", icon:"❄️", name:"Passo Congelante II", desc:"Congela água ao caminhar sobre ela.", price:10, tier:"comum"},
+  {id:"e12", icon:"🪶", name:"Passo Leve IV", desc:"Reduz dano de queda quase totalmente.", price:12, tier:"raro"},
+  {id:"e13", icon:"🌊", name:"Respiração Aquática III", desc:"Mais tempo de fôlego debaixo d'água.", price:8, tier:"comum"},
+  {id:"e14", icon:"➰", name:"Infinidade", desc:"Munição infinita para arco.", price:18, tier:"epico"},
+  {id:"e15", icon:"🎯", name:"Perfuração IV", desc:"Flechas atravessam múltiplos alvos.", price:10, tier:"raro"},
+  {id:"e16", icon:"🌊", name:"Impulso de Foguete III", desc:"Turbo debaixo d'água ou na chuva.", price:16, tier:"epico"},
+  {id:"e17", icon:"⚓", name:"Lealdade III", desc:"O tridente retorna após o lançamento.", price:10, tier:"raro"},
+  {id:"e18", icon:"⛈️", name:"Canalização", desc:"Invoca raios durante tempestades.", price:20, tier:"lendario"},
+];
+
+const TIER_LABEL = {comum:"Comum", raro:"Raro", epico:"Épico", lendario:"Lendário"};
+
+/* ================= STATE ================= */
+let currentUser = null;
+let cart = []; // {id,name,price,qty,icon}
+let unsubscribeCart = null;
+
+/* ================= RENDER CATALOGO ================= */
+function cardHTML(item){
+  return `
+  <div class="card">
+    <div class="glint-sweep"></div>
+    <div class="card-top">
+      <div class="card-icon">${item.icon}</div>
+      <div class="tier tier-${item.tier}">${TIER_LABEL[item.tier]}</div>
+    </div>
+    <h3>${item.name}</h3>
+    <div class="desc">${item.desc}</div>
+    <div class="card-bottom">
+      <div class="price">R$ ${item.price.toFixed(2).replace('.', ',')}</div>
+      <button class="add-btn" data-add="${item.id}">+</button>
+    </div>
+  </div>`;
+}
+document.getElementById('gridItens').innerHTML = ITENS_OP.map(cardHTML).join('');
+document.getElementById('gridEncantamentos').innerHTML = ENCANTAMENTOS.map(cardHTML).join('');
+
+function findCatalogItem(id){
+  return ITENS_OP.find(i=>i.id===id) || ENCANTAMENTOS.find(i=>i.id===id);
+}
+
+document.querySelectorAll('[data-add]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const item = findCatalogItem(btn.dataset.add);
+    addToCart(item);
+  });
+});
+
+/* ================= TABS ================= */
+document.querySelectorAll('nav.tabs button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat = btn.dataset.cat;
+    document.getElementById('itens').style.display = cat==='itens' ? '' : 'none';
+    document.getElementById('encantamentos').style.display = cat==='encantamentos' ? '' : 'none';
+  });
+});
+
+/* ================= AUTH ================= */
+function renderAuthArea(){
+  const el = document.getElementById('authArea');
+  if(currentUser){
+    el.innerHTML = `<div class="user-chip" id="userChip">
+      <img src="${currentUser.photoURL || 'https://api.dicebear.com/7.x/identicon/svg?seed='+currentUser.uid}" onerror="this.style.display='none'">
+      <span>${currentUser.displayName || currentUser.email}</span>
+    </div>`;
+    document.getElementById('userChip').addEventListener('click', ()=>{
+      if(confirm('Deseja sair da conta?')) auth.signOut();
+    });
+  } else {
+    el.innerHTML = `<button class="btn btn-ghost" id="loginBtnNav">Entrar</button>`;
+    document.getElementById('loginBtnNav').addEventListener('click', ()=>openModal('loginModal'));
+  }
+}
+renderAuthArea();
+
+document.getElementById('googleLoginBtn').addEventListener('click', async ()=>{
+  try{
+    await auth.signInWithPopup(googleProvider);
+    closeModal('loginModal');
+  }catch(err){
+    console.error(err);
+    showToast('Não foi possível entrar: ' + err.message);
+  }
+});
+
+auth.onAuthStateChanged(user=>{
+  currentUser = user;
+  renderAuthArea();
+  if(unsubscribeCart){ unsubscribeCart(); unsubscribeCart = null; }
+  if(user){
+    unsubscribeCart = db.collection('carts').doc(user.uid)
+      .onSnapshot(doc=>{
+        cart = (doc.exists && doc.data().items) ? doc.data().items : [];
+        renderCart();
+      }, err=>console.error(err));
+  } else {
+    cart = [];
+    renderCart();
+  }
+});
+
+/* ================= CART ================= */
+function saveCart(){
+  if(!currentUser) return;
+  db.collection('carts').doc(currentUser.uid).set({items: cart, updatedAt: firebase.firestore.FieldValue.serverTimestamp()});
+}
+
+function addToCart(item){
+  if(!currentUser){
+    openModal('loginModal');
+    return;
+  }
+  const existing = cart.find(c=>c.id===item.id);
+  if(existing){ existing.qty += 1; }
+  else{ cart.push({id:item.id, name:item.name, price:item.price, icon:item.icon, qty:1}); }
+  saveCart();
+  openDrawer();
+  showToast(`${item.name} adicionado ao carrinho`);
+}
+
+function changeQty(id, delta){
+  const it = cart.find(c=>c.id===id);
+  if(!it) return;
+  it.qty += delta;
+  if(it.qty <= 0) cart = cart.filter(c=>c.id!==id);
+  saveCart();
+}
+
+function removeItem(id){
+  cart = cart.filter(c=>c.id!==id);
+  saveCart();
+}
+
+function cartTotal(){
+  return cart.reduce((sum,i)=>sum + i.price*i.qty, 0);
+}
+
+function renderCart(){
+  const body = document.getElementById('drawerBody');
+  const countEl = document.getElementById('cartCount');
+  const totalCount = cart.reduce((s,i)=>s+i.qty,0);
+  countEl.style.display = totalCount>0 ? 'flex' : 'none';
+  countEl.textContent = totalCount;
+
+  if(cart.length===0){
+    body.innerHTML = `<div class="empty-msg">${currentUser ? 'Seu carrinho está vazio.<br>Explore a loja e adicione itens!' : 'Entre com sua conta para guardar itens no carrinho.'}</div>`;
+  } else {
+    body.innerHTML = cart.map(it=>`
+      <div class="cart-item">
+        <div class="ci-icon">${it.icon}</div>
+        <div class="ci-info">
+          <h4>${it.name}</h4>
+          <div class="mono">R$ ${it.price.toFixed(2).replace('.', ',')}</div>
+        </div>
+        <div class="qty-ctl">
+          <button data-dec="${it.id}">−</button>
+          <span>${it.qty}</span>
+          <button data-inc="${it.id}">+</button>
+        </div>
+        <button class="rm-btn" data-rm="${it.id}">✕</button>
+      </div>
+    `).join('');
+    body.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>changeQty(b.dataset.dec,-1)));
+    body.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>changeQty(b.dataset.inc,1)));
+    body.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click',()=>removeItem(b.dataset.rm)));
+  }
+  document.getElementById('cartTotal').textContent = 'R$ ' + cartTotal().toFixed(2).replace('.', ',');
+}
+renderCart();
+
+/* ================= DRAWER / MODALS ================= */
+const overlay = document.getElementById('overlay');
+const drawer = document.getElementById('drawer');
+function openDrawer(){ drawer.classList.add('open'); overlay.classList.add('show'); }
+function closeDrawer(){ drawer.classList.remove('open'); overlay.classList.remove('show'); }
+document.getElementById('cartBtn').addEventListener('click', openDrawer);
+document.getElementById('closeDrawer').addEventListener('click', closeDrawer);
+overlay.addEventListener('click', ()=>{ closeDrawer(); closeModal('loginModal'); closeModal('checkoutModal'); });
+
+function openModal(id){ document.getElementById(id).classList.add('show'); overlay.classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); if(!drawer.classList.contains('open')) overlay.classList.remove('show'); }
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+
+/* ================= CHECKOUT ================= */
+document.getElementById('checkoutBtn').addEventListener('click', ()=>{
+  if(!currentUser){ openModal('loginModal'); return; }
+  if(cart.length===0){ showToast('Seu carrinho está vazio.'); return; }
+  document.getElementById('pixKeyDisplay').textContent = PIX_KEY;
+  document.getElementById('pixValueDisplay').textContent = 'R$ ' + cartTotal().toFixed(2).replace('.', ',');
+  openModal('checkoutModal');
+});
+
+document.querySelectorAll('[data-copy]').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    const text = document.getElementById(btn.dataset.copy).textContent;
+    navigator.clipboard.writeText(text).then(()=>showToast('Copiado para a área de transferência'));
+  });
+});
+
+document.getElementById('confirmPaidBtn').addEventListener('click', async ()=>{
+  if(!currentUser || cart.length===0) return;
+  try{
+    await db.collection('pedidos').add({
+      uid: currentUser.uid,
+      email: currentUser.email,
+      nome: currentUser.displayName || '',
+      itens: cart,
+      total: cartTotal(),
+      chavePix: PIX_KEY,
+      status: 'aguardando_confirmacao',
+      criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    cart = [];
+    saveCart();
+    closeModal('checkoutModal');
+    closeDrawer();
+    showToast('Pedido registrado! Aguarde a confirmação da equipe.');
+  }catch(err){
+    console.error(err);
+    showToast('Erro ao registrar pedido: ' + err.message);
+  }
+});
+
+/* ================= TOAST ================= */
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
