@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eternos City - Candidatura Staff</title>
+    
+    <!-- Segurança: Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' https://www.gstatic.com https://apis.google.com 'unsafe-inline';
+        style-src 'self' 'unsafe-inline';
+        connect-src https://loja-gbxhub-default-rtdb.firebaseio.com https://*.firebaseio.com wss://*.firebaseio.com;
+        img-src 'self' data:;
+        font-src 'self';
+    ">
+    
+    <!-- Prevenir indexação -->
+    <meta name="robots" content="noindex, nofollow">
+    
+    <style>
+        /* Tema Roxo/Dark - Eternos City */
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --primary-light: #a78bfa;
+            --bg-dark: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-input: #1a1a2e;
+            --border: #2d1b69;
+            --text: #e2e8f0;
+            --text-muted: #a0aec0;
+            --accent: #c084fc;
+            --success: #10b981;
+            --error: #ef4444;
+            --glow: 0 0 20px rgba(124, 58, 237, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Cursor personalizado - Eternos City */
+        * {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='8' fill='none' stroke='%237c3aed' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%23c084fc'/%3E%3C/svg%3E") 12 12, auto;
+        }
+
+        a, button, input, textarea, select, .radio-option, [role="button"] {
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23c084fc' stroke-width='2'/%3E%3Ccircle cx='12' cy='12' r='4' fill='%237c3aed'/%3E%3C/svg%3E") 12 12, pointer;
+        }
+
+        /* Seleção de texto personalizada */
+        ::selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        ::-moz-selection {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-dark);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            background-image: 
+                radial-gradient(ellipse at 20% 50%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(192, 132, 252, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(109, 40, 217, 0.1) 0%, transparent 50%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Overlay de proteção visual */
+        .security-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            background: transparent;
+        }
+
+        .container {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), var(--glow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.05) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .logo h1 {
+            font-size: 2.2em;
+            background: linear-gradient(135deg, var(--accent), var(--primary-light), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo .subtitle {
+            color: var(--text-muted);
+            font-size: 0.9em;
+            margin-top: 5px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 1;
+        }
+
+        label {
+            display: block;
+            color: var(--text);
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+
+        label .required {
+            color: var(--accent);
+            margin-left: 2px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            font-size: 0.95em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            outline: none;
+            font-family: inherit;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            border-color: var(--primary);
+            background: var(--bg-input);
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.3), inset 0 0 15px rgba(124, 58, 237, 0.05);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+            max-height: 200px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .radio-option:hover {
+            border-color: var(--primary-light);
+            background: rgba(124, 58, 237, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .radio-option:has(input:checked) {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.15);
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+        }
+
+        .radio-option input[type="radio"] {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--text-muted);
+            border-radius: 50%;
+            margin-right: 12px;
+            position: relative;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .radio-option input[type="radio"]:checked {
+            border-color: var(--accent);
+            background: var(--primary);
+            animation: pulse 0.3s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .radio-option input[type="radio"]:checked::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: glowPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(192, 132, 252, 0.5); }
+            50% { box-shadow: 0 0 0 6px rgba(192, 132, 252, 0); }
+        }
+
+        .radio-option .icon {
+            margin-right: 8px;
+            font-size: 1.1em;
+        }
+
+        .radio-option span {
+            color: var(--text);
+            font-size: 0.9em;
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.05em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(124, 58, 237, 0.4);
+        }
+
+        button:active {
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            filter: grayscale(30%);
+        }
+
+        button:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            display: none;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .message.success {
+            display: block;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success);
+            color: var(--success);
+            backdrop-filter: blur(10px);
+        }
+
+        .message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--error);
+            color: var(--error);
+            backdrop-filter: blur(10px);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-light);
+            border-radius: 50%;
+            animation: particleFloat 6s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translateY(0) translateX(0); }
+            25% { transform: translateY(-100px) translateX(50px); }
+            50% { transform: translateY(-50px) translateX(-50px); }
+            75% { transform: translateY(-150px) translateX(30px); }
+        }
+
+        /* Watermark de proteção */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 8em;
+            color: rgba(124, 58, 237, 0.02);
+            pointer-events: none;
+            z-index: 0;
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+                border-radius: 20px;
+            }
+            
+            .radio-group {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas de fundo -->
+    <div class="particles" id="particles"></div>
+    
+    <!-- Watermark de segurança -->
+    <div class="watermark">ETERNOS CITY</div>
+
+    <div class="container">
+        <div class="logo">
+            <div class="logo-icon">🏙️</div>
+            <h1>Eternos City</h1>
+            <p class="subtitle">Candidatura Staff</p>
+        </div>
+
+        <form id="staffForm" autocomplete="off">
+            <!-- Campo honeypot anti-spam (invisível para humanos) -->
+            <div style="position: absolute; left: -9999px;" aria-hidden="true">
+                <input type="text" name="website" tabindex="-1" autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="nome">Nome no Discord <span class="required">*</span></label>
+                <input type="text" id="nome" name="nome" placeholder="Ex: João#1234 ou joaosilva" maxlength="100" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="discord_id">ID do Discord <span class="required">*</span></label>
+                <input type="text" id="discord_id" name="discord_id" placeholder="Ex: 123456789012345678" maxlength="20" required autocomplete="off">
+            </div>
+
+            <div class="form-group">
+                <label for="idade">Idade <span class="required">*</span></label>
+                <input type="number" id="idade" name="idade" placeholder="Mínimo 16 anos" min="16" max="100" required>
+            </div>
+
+            <div class="form-group">
+                <label>Área de Atuação <span class="required">*</span></label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="area" value="Moderador" required>
+                        <span class="icon">🛡️</span>
+                        <span>Moderador</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="area" value="Suporte">
+                        <span class="icon">🎧</span>
+                        <span>Suporte</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="area" value="Admin">
+                        <span class="icon">⚙️</span>
+                        <span>Admin</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="area" value="Atendimento">
+                        <span class="icon">💬</span>
+                        <span>Atendimento</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="motivacao">Por que deseja ser staff? <span class="required">*</span></label>
+                <textarea id="motivacao" name="motivacao" placeholder="Conte-nos sobre suas motivações e habilidades..." maxlength="1000" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="experiencia">Experiência anterior <span class="required">*</span></label>
+                <textarea id="experiencia" name="experiencia" placeholder="Já participou de outros servidores? Conte sua experiência..." maxlength="1000" required></textarea>
+            </div>
+
+            <button type="submit" id="submitBtn">
+                <span class="btn-content">
+                    <span>📨</span>
+                    <span>Enviar Candidatura</span>
+                </span>
+            </button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // ==================== SEGURANÇA ====================
+        
+        // Desativar F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+        document.addEventListener('keydown', function(e) {
+            // Bloquear F12
+            if (e.key === 'F12' || e.keyCode === 123) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            
+            // Bloquear Ctrl+Shift+I (DevTools)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.keyCode === 73)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            
+            // Bloquear Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && (e.key === 'J' || e.key === 'j' || e.keyCode === 74)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            
+            // Bloquear Ctrl+U (Ver código fonte)
+            if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+            
+            // Bloquear Ctrl+S (Salvar página)
+            if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+
+        // Desativar clique direito
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        });
+
+        // Detectar e prevenir DevTools
+        function detectDevTools() {
+            const threshold = 160;
+            const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+            const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+            
+            if (widthThreshold || heightThreshold) {
+                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#7c3aed;font-size:24px;">🔒 Acesso restrito</div>';
+                clearInterval(devToolsInterval);
+            }
+        }
+        
+        const devToolsInterval = setInterval(detectDevTools, 1000);
+
+        // Prevenir arrastar elementos
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Prevenir seleção de texto (exceto inputs)
+        document.addEventListener('selectstart', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+                e.preventDefault();
+            }
+        });
+
+        // ==================== FIREBASE ====================
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyBu7u5URAyJSzY-BgYQS9IdWaW1jIqRa8M",
+            authDomain: "loja-gbxhub.firebaseapp.com",
+            databaseURL: "https://loja-gbxhub-default-rtdb.firebaseio.com",
+            projectId: "loja-gbxhub",
+            storageBucket: "loja-gbxhub.firebasestorage.app",
+            messagingSenderId: "855317724811",
+            appId: "1:855317724811:web:fdf4f3bb29625b1af01e8e",
+            measurementId: "G-JSQ7WB32M2"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // ==================== FUNÇÕES ====================
+        
+        // Sanitização básica de input
+        function sanitizeInput(input) {
+            if (typeof input !== 'string') return input;
+            
+            // Remover tags HTML e scripts
+            let sanitized = input
+                .replace(/<[^>]*>/g, '')
+                .replace(/javascript:/gi, '')
+                .replace(/on\w+=/gi, '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#x27;')
+                .trim();
+            
+            return sanitized;
+        }
+
+        // Validação de nome do Discord
+        function validateDiscordNome(nome) {
+            // Aceita nome de usuário Discord (pode conter letras, números, underscore, ponto)
+            // ou nome antigo com # (ex: João#1234)
+            const regex = /^[a-zA-ZÀ-ÿ0-9_.\s]{2,32}(?:#[0-9]{4})?$/;
+            return regex.test(nome);
+        }
+
+        // Validação de ID do Discord (17-20 dígitos numéricos)
+        function validateDiscordId(id) {
+            const regex = /^[0-9]{17,20}$/;
+            return regex.test(id);
+        }
+
+        // Validação de idade
+        function validateIdade(idade) {
+            const idadeNum = parseInt(idade);
+            return !isNaN(idadeNum) && idadeNum >= 16 && idadeNum <= 100;
+        }
+
+        // Gerar token CSRF simples
+        function generateCSRFToken() {
+            return Math.random().toString(36).substring(2) + Date.now().toString(36);
+        }
+
+        // Rate limiting simples
+        let lastSubmissionTime = 0;
+        const RATE_LIMIT = 60000; // 1 minuto entre submissões
+
+        // ==================== DOM ELEMENTS ====================
+        
+        const form = document.getElementById('staffForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const messageDiv = document.getElementById('message');
+        
+        // Token CSRF
+        let csrfToken = generateCSRFToken();
+
+        // ==================== MENSAGENS ====================
+        
+        function showMessage(text, type) {
+            messageDiv.textContent = text;
+            messageDiv.className = 'message ' + type;
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageDiv.className = 'message';
+                }, 8000);
+            } else {
+                setTimeout(() => {
+                    messageDiv.className = 'message';
+                }, 5000);
+            }
+        }
+
+        // ==================== FORM SUBMISSION ====================
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Rate limiting
+            const now = Date.now();
+            if (now - lastSubmissionTime < RATE_LIMIT) {
+                const remainingTime = Math.ceil((RATE_LIMIT - (now - lastSubmissionTime)) / 1000);
+                showMessage(`⏳ Aguarde ${remainingTime} segundos para enviar novamente.`, 'error');
+                return;
+            }
+            
+            // Honeypot check
+            const honeypot = form.querySelector('input[name="website"]');
+            if (honeypot && honeypot.value) {
+                console.log('Bot detectado');
+                showMessage('✅ Candidatura enviada com sucesso!', 'success');
+                form.reset();
+                return;
+            }
+            
+            // Desabilitar botão
+            submitBtn.disabled = true;
+            submitBtn.querySelector('.btn-content').innerHTML = '<span>⏳</span><span>Enviando...</span>';
+            
+            // Coletar dados
+            const rawNome = document.getElementById('nome').value;
+            const rawDiscordId = document.getElementById('discord_id').value;
+            const rawIdade = document.getElementById('idade').value;
+            const rawMotivacao = document.getElementById('motivacao').value;
+            const rawExperiencia = document.getElementById('experiencia').value;
+            
+            // Validar área selecionada
+            const areaElement = document.querySelector('input[name="area"]:checked');
+            if (!areaElement) {
+                showMessage('❌ Selecione uma área de atuação.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-content').innerHTML = '<span>📨</span><span>Enviar Candidatura</span>';
+                return;
+            }
+            
+            // Validações
+            if (!validateDiscordNome(rawNome)) {
+                showMessage('❌ Nome do Discord inválido. Use o formato: Nome#1234 ou nomeusuario', 'error');
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-content').innerHTML = '<span>📨</span><span>Enviar Candidatura</span>';
+                return;
+            }
+            
+            if (!validateDiscordId(rawDiscordId)) {
+                showMessage('❌ ID do Discord inválido. Deve conter 17-20 dígitos numéricos.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-content').innerHTML = '<span>📨</span><span>Enviar Candidatura</span>';
+                return;
+            }
+            
+            if (!validateIdade(rawIdade)) {
+                showMessage('❌ Idade inválida. Mínimo 16 anos.', 'error');
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-content').innerHTML = '<span>📨</span><span>Enviar Candidatura</span>';
+                return;
+            }
+            
+            // Sanitizar inputs
+            const formData = {
+                nome_discord: sanitizeInput(rawNome),
+                discord_id: sanitizeInput(rawDiscordId),
+                idade: parseInt(rawIdade),
+                area: sanitizeInput(areaElement.value),
+                motivacao: sanitizeInput(rawMotivacao),
+                experiencia: sanitizeInput(rawExperiencia),
+                dataCandidatura: new Date().toISOString(),
+                status: "pendente",
+                ip_hash: "protegido",
+                csrf_token: csrfToken
+            };
+            
+            try {
+                // Salvar no Firebase
+                const staffRef = ref(database, 'candidaturas_staff');
+                const newStaffRef = push(staffRef);
+                await set(newStaffRef, formData);
+                
+                // Atualizar rate limit
+                lastSubmissionTime = Date.now();
+                csrfToken = generateCSRFToken();
+                
+                // Sucesso
+                showMessage('✅ Candidatura enviada com sucesso! Nossa equipe analisará seu perfil.', 'success');
+                form.reset();
+                
+                // Scroll para mensagem
+                messageDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+            } catch (error) {
+                console.error('Erro ao enviar candidatura:', error.message);
+                showMessage('❌ Erro de conexão. Verifique sua internet e tente novamente.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.querySelector('.btn-content').innerHTML = '<span>📨</span><span>Enviar Candidatura</span>';
+            }
+        });
+
+        // ==================== PARTÍCULAS ====================
+        
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const numParticles = 20;
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        createParticles();
+
+        // ==================== ANTI-DEBUGGER ====================
+        
+        // Prevenir debugging com debugger statement
+        setInterval(() => {
+            const start = performance.now();
+            debugger;
+            const end = performance.now();
+            
+            if (end - start > 100) {
+                document.body.innerHTML = '<div style="display:flex;justify-content:center;align-items:center;height:100vh;color:#7c3aed;font-size:24px;">🔒 Segurança Eternos City</div>';
+            }
+        }, 1000);
+
+        console.log('🏙️ Eternos City - Sistema de Candidaturas iniciado com segurança máxima.');
+    </script>
+</body>
+</html>
